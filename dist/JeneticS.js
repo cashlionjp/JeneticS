@@ -300,7 +300,7 @@ function Culture(createCitizen, population) {
         random: Math.random,
         floor: Math.floor,
         randFloor: function (val) {
-            return this.floor(this.random(val));
+            return this.floor(this.random() * val);
         }
     };
 }
