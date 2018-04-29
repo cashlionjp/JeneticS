@@ -2,11 +2,11 @@ class JeneticS {
     constructor(config) {
         this.culture = null;
         this.settings = {
-            mutationRate: 0.01,
-            population: 500,
-            crossoverMethod: "all",
-            elitism: 0.1,
-            eliteMutationMultiplier: 5
+            mutationRate: 0.01, // Rate of mutation
+            population: 500, // Population of Agents in Culture
+            crossoverMethod: "all", // "all" "half" "alternate"
+            elitism: 0.1, // Percentage of additional mutated elites
+            eliteMutationMultiplier: 5 // Multiplier for elite mutation rate
         };
 
         for (let param in config) {
@@ -28,12 +28,6 @@ class JeneticS {
             this.settings.population = population;
             this.culture = new Culture(createCitizen, population);
             return this.culture;
-        };
-
-        this.check = function () {
-            for (let i = 0; i < this.culture.population; i++) {
-                this.culture.citizen(i).check();
-            }
         };
 
         this.health = function () {
@@ -59,23 +53,6 @@ class JeneticS {
                 },
                 continuous: function () {
                     // TODO
-                }
-            };
-        };
-        
-        this.util = function () {
-            return {
-                sortedIndex: function (array, value) {
-                    var low = 0,
-                        high = array.length;
-                    while (low < high) {
-                        var mid = low + high >>> 1;
-                        if (array[mid] < value)
-                            low = mid + 1;
-                        else
-                            high = mid;
-                    }
-                    return low;
                 }
             };
         };
