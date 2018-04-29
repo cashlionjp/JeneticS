@@ -78,6 +78,17 @@ let i = 2;
 byIndex = geneticAlgorithm.culture.citizen(i);
 ```
 
+# Options:
+```javascript
+let geneticAlgorithm = new JeneticS({
+    mutationRate: 0.01,         // Rate of mutation
+    population: 500,            // Population of Agents in Culture
+    crossoverMethod: "all",     // "all" "half" "alternate"
+    elitism: 0.1,               // Percentage of additional mutated elites
+    eliteMutationMultiplier: 5  // Multiplier for elite mutation rate
+});
+```
+
 # TODO:
 * Add more examples
 * Add continuous evolution mode
