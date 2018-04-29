@@ -11,7 +11,7 @@ Agent.prototype.live = function () { // Required: Live function
 
     //    Exponential increase per correct letter
     let temp = Math.abs(this.dna.length - evolve.length);
-    this.score = -(temp); // Penalty for length differences
+    this.score = -(temp*temp); // Penalty for length differences
     let count = 0;
     for (let i = 0; i < this.dna.length; i++) {
         if (this.dna[i] === evolve[i]) {
