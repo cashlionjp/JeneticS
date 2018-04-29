@@ -1,4 +1,4 @@
-Agent.prototype.live = function () {  // Required: Live function
+Agent.prototype.live = function () { // Required: Live function
     //   Linear increase per correct letter
     // for (let i = 0; i < this.dna.length; i++) {
     //     if (this.dna[i] === evolve[i]) {
@@ -8,10 +8,10 @@ Agent.prototype.live = function () {  // Required: Live function
 
     // Try above snippet and below separately
     // Compare results with a 
-    
+
     //    Factorial increase per correct letter
     let temp = Math.abs(this.dna.length - evolve.length);
-    this.score = -(temp);  // Penalty for length differences
+    this.score = -(temp); // Penalty for length differences
     let count = 0;
     for (let i = 0; i < this.dna.length; i++) {
         if (this.dna[i] === evolve[i]) {
@@ -19,9 +19,9 @@ Agent.prototype.live = function () {  // Required: Live function
         }
     }
     this.score = count * count;
-};
+}
 
-Agent.prototype.mutate = function (rate) {  // Required: Mutate function
+Agent.prototype.mutate = function (rate) { // Required: Mutate function
     for (let i = 0; i < this.dna.length; i++) {
         if (Math.random() < rate) {
             this.dna[i] = randLetter(); // Randomly mutate a letter
@@ -40,12 +40,12 @@ const MAX_WORD_LENGTH = 10;
 const MAX_NUM_OF_WORDS = 5;
 let letterbank = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=,./<>?;':[]{}| ";
 let ga = new JeneticS();
-ga.innoculate(createSentence);  // Pass in a function to create a random Agent
+ga.innoculate(createSentence); // Pass in a function to create a random Agent
 let word = "";
 let best = null;
 
 let results = document.getElementById("results");
-let genCount = 0;  // Count the number of generations.
+let genCount = 0; // Count the number of generations.
 while (evolve !== word && genCount < 1000) { // Limit generations to 1000
     ga.run().generation();
     best = ga.culture.best;
