@@ -11,7 +11,7 @@ Such that the population evolves towards some optimal solution.
 [More Reading Material Here](https://en.wikipedia.org/wiki/Genetic_algorithm)
 
 # Installation:
-Include Jenetics.js or Jenetics.min.js
+Include Jenetics.js or Jenetics.min.js from [dist](dist/)
 ```html
 <script src="path/to/JeneticS.js"></script>
 <script src="path/to/your/app.js"></script>

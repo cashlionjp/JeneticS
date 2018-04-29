@@ -15,10 +15,9 @@ Agent.prototype.live = function () { // Required: Live function
     let count = 0;
     for (let i = 0; i < this.dna.length; i++) {
         if (this.dna[i] === evolve[i]) {
-            ++count;
+            this.score += ++count*count;
         }
     }
-    this.score = count * count;
 }
 
 Agent.prototype.mutate = function (rate) { // Required: Mutate function
