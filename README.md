@@ -77,3 +77,7 @@ allIndividuals = geneticAlgorithm.culture.citizens;
 let i = 2;
 byIndex = geneticAlgorithm.culture.citizen(i);
 ```
+
+# TODO:
+* Add more examples
+* Add continuous evolution mode
