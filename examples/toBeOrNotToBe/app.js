@@ -1,21 +1,23 @@
 Agent.prototype.live = function () {  // Required: Live function
     //   Linear increase per correct letter
-    for (let i = 0; i < this.dna.length; i++) {
-        if (this.dna[i] === evolve[i]) {
-            this.score++;
-        }
-    }
+    // for (let i = 0; i < this.dna.length; i++) {
+    //     if (this.dna[i] === evolve[i]) {
+    //         this.score++;
+    //     }
+    // }
 
     // Try above snippet and below separately
     // Compare results with a 
     
     //    Factorial increase per correct letter
-    // let count = 0;
-    // for (let i = 0; i < this.dna.length; i++) {
-    //     if (this.dna[i] === evolve[i]) {
-    //         this.score += ++count * count;
-    //     }
-    // }
+    let temp = Math.abs(this.dna.length - evolve.length);
+    this.score = -(temp);  // Penalty for length differences
+    let count = 0;
+    for (let i = 0; i < this.dna.length; i++) {
+        if (this.dna[i] === evolve[i]) {
+            this.score += ++count * count;
+        }
+    }
 };
 
 Agent.prototype.mutate = function (rate) {  // Required: Mutate function
