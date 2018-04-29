@@ -56,26 +56,6 @@ class JeneticS {
                 }
             };
         };
-<<<<<<< HEAD
-=======
-
-        this.util = function () {
-            return {
-                sortedIndex: function (array, value) {
-                    var low = 0,
-                        high = array.length;
-                    while (low < high) {
-                        var mid = low + high >>> 1;
-                        if (array[mid] < value)
-                            low = mid + 1;
-                        else
-                            high = mid;
-                    }
-                    return low;
-                }
-            };
-        };
->>>>>>> a2d02fb1c934cacf09ccee96e624e4dda1f1e2a6
     }
 }
 
