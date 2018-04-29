@@ -3,77 +3,83 @@ class Culture {
     constructor(createCitizen, population) {
         if (isNaN(population)) {
             throw "Please use a number";
-        }
-        else if (typeof createCitizen !== 'function') {
+        } else if (typeof createCitizen !== 'function') {
             throw "Expected function as first argument. Please define a function to create citizens.";
         }
+
         this.population = population;
         this.best = null;
         this.fitnessRange = {
             low: Infinity,
             high: -Infinity
         };
+
         this.citizens = [];
         this.census = [];
         this.nextGeneration = [];
+
         for (let i = 0; i < population; i++) {
             this.citizens.push(createCitizen(i));
             this.census.push(i);
         }
+
         this.genCensus = function () {
             if (this.census.length !== this.citizens.length) {
                 return Array.apply(null, Array(this.citizens.length)).map((x, i) => i);
             }
             return this.census;
         };
+
         this.naturalSelection = function () {
             this.best = null;
             this.fitnessRange.low = Infinity;
             this.fitnessRange.high = -Infinity;
             this.liveOneEpoch();
         };
+
         this.crossover = function () {
             let self = this;
+
             function randomCitizen() {
                 return self.citizen(self.util.randFloor(self.population));
             }
+
             function selectCitizen() {
-                // Selects a citizen of the culture probabalistically based on weighted score
-                let rand = self.util.random();
-                let agent;
-                for (let i = 0; i < self.citizens.length; i++) {
-                    agent = self.citizen(i % self.citizens.length);
-                    if (rand < agent.weighted) {
-                        return agent;
-                    }
-                    else {
-                        rand -= agent.weighted;
+                // TODO - decide how to handle potential infinite loops
+                while (true) {
+                    // Selects a citizen of the culture probabalistically based on weighted score
+                    let rand = self.util.random();
+                    let agent;
+                    for (let i = 0; i < self.citizens.length; i++) {
+                        agent = self.citizen(i);
+                        if (rand < agent.weighted) {
+                            return agent;
+                        } else {
+                            rand -= agent.weighted;
+                        }
                     }
                 }
-                return null;
             }
+
             function getParents() {
                 // returns a set of candidate parents
-                let father = null;
-                while (father === null)
-                    father = selectCitizen();
-                let mother = null;
-                while (mother === null)
-                    mother = selectCitizen();
+                let father = selectCitizen();
+                let mother = selectCitizen();
                 return [mother, father];
             }
+
             function splitArray(arr, mother = false) {
                 if (arr && arr.length) {
                     let halfway = self.util.floor(arr.length / 2);
                     if (mother) {
                         return arr.slice(0, halfway);
-                    }
-                    else {
+                    } else {
                         return arr.slice(halfway);
                     }
                 }
                 return [];
             }
+
             function half(i) {
                 let [mother, father] = getParents();
                 mother = splitArray(mother.dna, true);
@@ -82,6 +88,7 @@ class Culture {
                 child.dna = mother.concat(father);
                 self.nextGeneration.push(child);
             }
+
             function alternate(i) {
                 let [mother, father] = getParents();
                 let child = new Agent();
@@ -96,8 +103,7 @@ class Culture {
                 let momLength = mother.dna.length;
                 if (dadLength < momLength) {
                     child.dna.concat(mother.dna.slice(dadLength));
-                }
-                else {
+                } else {
                     child.dna.concat(father.dna.slice(momLength));
                 }
                 child.dna = child.dna.filter(function (n) {
@@ -105,20 +111,22 @@ class Culture {
                 });
                 self.nextGeneration.push(child);
             }
+
             function all(i) {
                 if (self.util.randFloor(10) % 2) {
                     half(i);
-                }
-                else {
+                } else {
                     alternate(i);
                 }
             }
+
             function createGeneration(callback) {
                 self.nextGeneration = [];
                 while (self.nextGeneration.length < self.population) {
                     callback(self.nextGeneration.length);
                 }
             }
+
             return {
                 all: function () {
                     createGeneration(all);
@@ -131,6 +139,7 @@ class Culture {
                 }
             };
         };
+
         this.mutate = function (rate, elitism, multiplier = 2) {
             for (let i = 1; i < this.nextGeneration.length; i++) {
                 this.nextGeneration[i].mutate(rate);
@@ -145,12 +154,15 @@ class Culture {
             this.citizens = this.nextGeneration;
             this.census = this.genCensus();
         };
+
         this.citizen = function (index) {
             return this.citizens[this.census[index]];
         };
+
         this.shuffle = function () {
             // Knuth Shuffle
-            var loc = this.census.length, temp, randIndex;
+            var loc = this.census.length,
+                temp, randIndex;
             // While there remain elements to shuffle…
             while (loc) {
                 // Pick a remaining element…
@@ -161,6 +173,7 @@ class Culture {
                 this.census[randIndex] = temp;
             }
         };
+
         this.liveOneEpoch = function () {
             for (let i = 0; i < this.citizens.length; i++) {
                 let agent = this.citizen(i);
@@ -172,6 +185,7 @@ class Culture {
                 }
             }
         };
+
         this.normalize = function () {
             let total = 0;
             for (let i = 0; i < this.citizens.length; i++) {
@@ -185,6 +199,7 @@ class Culture {
                 agent.weighted = agent.score / total;
             }
         };
+
         this.util = {
             map: function (num, inMin, inMax, outMin, outMax) {
                 return (num - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
