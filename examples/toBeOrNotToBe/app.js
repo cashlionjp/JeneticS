@@ -1,8 +1,8 @@
-Agent.prototype.live = function () { // Required: Live function
+function live (self) { // Required: Live function
     //   Linear increase per correct letter
-    // for (let i = 0; i < this.dna.length; i++) {
-    //     if (this.dna[i] === evolve[i]) {
-    //         this.score++;
+    // for (let i = 0; i < self.dna.length; i++) {
+    //     if (self.dna[i] === evolve[i]) {
+    //         self.score++;
     //     }
     // }
 
@@ -10,27 +10,27 @@ Agent.prototype.live = function () { // Required: Live function
     // Compare results with a 
 
     //    Exponential increase per correct letter
-    let temp = Math.abs(this.dna.length - evolve.length);
-    this.score = -(temp*temp); // Penalty for length differences
+    let temp = Math.abs(self.dna.length - evolve.length);
+    self.score = -(temp*temp); // Penalty for length differences
     let count = 0;
-    for (let i = 0; i < this.dna.length; i++) {
-        if (this.dna[i] === evolve[i]) {
-            this.score += ++count*count;
+    for (let i = 0; i < self.dna.length; i++) {
+        if (self.dna[i] === evolve[i]) {
+            self.score += ++count*count;
         }
     }
 }
 
-Agent.prototype.mutate = function (rate) { // Required: Mutate function
-    for (let i = 0; i < this.dna.length; i++) {
+function mutate (self, rate) { // Required: Mutate function
+    for (let i = 0; i < self.dna.length; i++) {
         if (Math.random() < rate) {
-            this.dna[i] = randLetter(); // Randomly mutate a letter
+            self.dna[i] = randLetter(); // Randomly mutate a letter
         }
     }
     if (Math.random() < rate) {
-        this.dna.push(randLetter()); // Randomly increase sentence by a letter
+        self.dna.push(randLetter()); // Randomly increase sentence by a letter
     }
     if (Math.random() < rate) {
-        this.dna.splice(this.dna.length - 1, 1) // Randomly decrease sentence by a letter
+        self.dna.splice(self.dna.length - 1, 1) // Randomly decrease sentence by a letter
     }
 };
 
@@ -55,7 +55,7 @@ while (evolve !== word && genCount < 1000) { // Limit generations to 1000
 
 
 function createSentence(index) {
-    let sentence = new Agent();
+    let sentence = new Agent({live:live, mutate:mutate});
     // Create a sentence with a random number of words.
     let numOfWords = Math.floor(1 + Math.random() * MAX_NUM_OF_WORDS);
     for (let i = 0; i < numOfWords; i++) {

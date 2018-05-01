@@ -144,16 +144,16 @@ class Culture {
 
             function half(i) {
                 let [mother, father] = getParents();
+                let child = new Agent({live: mother.live, mutate: mother.mutate});
                 mother = splitArray(mother.dna, true);
                 father = splitArray(father.dna);
-                let child = new Agent();
                 child.dna = mother.concat(father);
                 self.nextGeneration.push(child);
             }
 
             function alternate(i) {
                 let [mother, father] = getParents();
-                let child = new Agent();
+                let child = new Agent({live: mother.live, mutate: mother.mutate});
                 child.dna = mother.dna.filter((element, index) => {
                     return index % 2 === 0;
                 }).reduce(function (arr, v, i) {
@@ -204,12 +204,13 @@ class Culture {
 
         this.mutate = function (rate, elitism, multiplier = 2) {
             for (let i = 1; i < this.nextGeneration.length; i++) {
-                this.nextGeneration[i].mutate(rate);
+                let agent = this.nextGeneration[i];
+                agent.mutate(agent, rate);
             }
             let numOfElites = this.util.floor(this.population * elitism);
             for (let i = 1; i < numOfElites; i++) {
                 let clone = this.best.copy();
-                clone.mutate(rate * multiplier);
+                clone.mutate(clone, rate * multiplier);
                 this.nextGeneration.push(clone);
             }
             this.nextGeneration.push(this.best);
@@ -239,7 +240,7 @@ class Culture {
         this.liveOneEpoch = function () {
             for (let i = 0; i < this.citizens.length; i++) {
                 let agent = this.citizen(i);
-                agent.live();
+                agent.live(agent);
                 this.fitnessRange.low = agent.score < this.fitnessRange.low ? agent.score : this.fitnessRange.low;
                 if (agent.score > this.fitnessRange.high) {
                     this.fitnessRange.high = agent.score;
@@ -276,27 +277,82 @@ class Culture {
 }
 
 
+// class Agent {
+//     constructor() {
+//         //                                          ____     ______
+//         // Users are expected to prototype at least live and mutate functions
+//         // 
+//         // As well as any others you might need!!
+//         this.type = null;
+//         this.score = 1;
+//         this.weighted = 1;
+//         this.config = {};
+//         this.dna = [];
+//         this.copy = function () {
+//             let agent = new Agent();
+//             for (var prop in this.config) {
+//                 if (this.config.hasOwnProperty(prop)) {
+//                     agent.config[prop] = this.config[prop];
+//                 }
+//             }
+//             agent.type = this.type;
+//             agent.dna = this.dna.slice();
+//             return agent;
+//         };
+//     }
+// }
 class Agent {
-    constructor() {
-        //                                          ____     ______
-        // Users are expected to prototype at least live and mutate functions
-        // 
-        // As well as any others you might need!!
-        this.type = null;
-        this.score = 1;
-        this.weighted = 1;
-        this.config = {};
-        this.dna = [];
-        this.copy = function () {
-            let agent = new Agent();
-            for (var prop in this.config) {
-                if (this.config.hasOwnProperty(prop)) {
-                    agent.config[prop] = this.config[prop];
-                }
-            }
-            agent.type = this.type;
-            agent.dna = this.dna.slice();
-            return agent;
-        };
+    constructor({
+        live,
+        mutate,
+        weighted,
+        score,
+        type,
+        dna,
+        config
+    }) { // live and mutate are required 
+        if (!live || typeof live !== 'function') {
+            throw new Error('Agents need a live function.');
+        }
+
+        if (!mutate || typeof mutate !== 'function') {
+            throw new Error('Agents need a mutate function.');
+        }
+
+        this.score = score || 1;
+        this.type = type || null;
+        this.weighted = weighted || 1;
+        this.dna = dna || [];
+        this.config = config || {};
+        this.live = live;
+        this.mutate = mutate;
+
+    }
+
+    set(key, value) {
+        this[key] = value;
+        return this;
+    }
+
+    // copy was a instance property, and not a prototype method. 
+    // That means this was being recreated for each Agent instance. 
+    copy() {
+        return new Agent({
+            live: this.live,
+            mutate: this.mutate,
+            type: this.type,
+            score: 1,
+            weighted: this.weighted,
+            dna: this.dna,
+            config: this.config
+        });
+    }
+
+    live() {
+        return this.live(this);
+    }
+
+    mutate(rate) {
+        return this.mutate(this, rate);
     }
 }

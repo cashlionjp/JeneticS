@@ -82,16 +82,16 @@ class Culture {
 
             function half(i) {
                 let [mother, father] = getParents();
+                let child = new Agent({live: mother.live, mutate: mother.mutate});
                 mother = splitArray(mother.dna, true);
                 father = splitArray(father.dna);
-                let child = new Agent();
                 child.dna = mother.concat(father);
                 self.nextGeneration.push(child);
             }
 
             function alternate(i) {
                 let [mother, father] = getParents();
-                let child = new Agent();
+                let child = new Agent({live: mother.live, mutate: mother.mutate});
                 child.dna = mother.dna.filter((element, index) => {
                     return index % 2 === 0;
                 }).reduce(function (arr, v, i) {
@@ -142,12 +142,13 @@ class Culture {
 
         this.mutate = function (rate, elitism, multiplier = 2) {
             for (let i = 1; i < this.nextGeneration.length; i++) {
-                this.nextGeneration[i].mutate(rate);
+                let agent = this.nextGeneration[i];
+                agent.mutate(agent, rate);
             }
             let numOfElites = this.util.floor(this.population * elitism);
             for (let i = 1; i < numOfElites; i++) {
                 let clone = this.best.copy();
-                clone.mutate(rate * multiplier);
+                clone.mutate(clone, rate * multiplier);
                 this.nextGeneration.push(clone);
             }
             this.nextGeneration.push(this.best);
@@ -177,7 +178,7 @@ class Culture {
         this.liveOneEpoch = function () {
             for (let i = 0; i < this.citizens.length; i++) {
                 let agent = this.citizen(i);
-                agent.live();
+                agent.live(agent);
                 this.fitnessRange.low = agent.score < this.fitnessRange.low ? agent.score : this.fitnessRange.low;
                 if (agent.score > this.fitnessRange.high) {
                     this.fitnessRange.high = agent.score;
