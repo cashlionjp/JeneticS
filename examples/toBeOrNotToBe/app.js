@@ -7,7 +7,7 @@ Agent.prototype.live = function () { // Required: Live function
     // }
 
     // Try above snippet and below separately
-    // Compare results with a 
+    // Compare results with:  
 
     //    Exponential increase per correct letter
     let temp = Math.abs(this.dna.length - evolve.length);
