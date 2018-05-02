@@ -1,7 +1,9 @@
 # JeneticS
+
 Genetic Algorithm Library in JS
 
 A genetic algorithm is more or less a universal function approximator.  After an initial (usually randomized) population is created, the algorithm loops through the following processes:
+
 * __Fitness__ - Assessing how well an indiviual performs.
 * __Crossover__ ( reproduction ) - The fittest individuals have a higher probability to pass on DNA.
 * __Mutation__ - Random mutations supply the necessary entropy to navigate the search space.
@@ -10,8 +12,10 @@ Such that the population evolves towards some optimal solution.
 
 [More Reading Material Here](https://en.wikipedia.org/wiki/Genetic_algorithm)
 
-# Installation:
+## Installation:
+
 Include Jenetics.js or Jenetics.min.js from [dist](dist/)
+
 ```html
 <script src="path/to/JeneticS.js"></script>
 <script src="path/to/your/app.js"></script>
@@ -19,9 +23,12 @@ Include Jenetics.js or Jenetics.min.js from [dist](dist/)
 
 Node specific usage coming soon.
 
-# Usage:
+## Usage:
+
 Define a live (fitness) and mutate functions for your Agent.
+
 ```javascript
+let evolve = "A string to evolve."; // Trivial example
 Agent.prototype.live = function () {  // Example: Live function
     for (let i = 0; i < this.dna.length; i++) {
         if (this.dna[i] === evolve[i]) {
@@ -36,9 +43,7 @@ Agent.prototype.mutate = function (rate) {  // Example: Mutate function
             // MUTATE DNA
         }
     }
-    
     // OR
-    
     if (Math.random() < rate) {
         // MUTATE AGENT
     }
@@ -58,17 +63,20 @@ function createAgent(index) {
 ```
 
 Create a Genetic Algorithm instance and innoculate the culture:
+
 ```javascript
 let geneticAlgorithm = new JeneticS();
 geneticAlgorithm.innoculate(createAgent); // Pass in a function to create a random Agent
 ```
 
 Simulate a generation
+
 ```javascript
 geneticAlgorithm.run().generation();
 ```
 
 Access the fittest individual, the entire population, or by index.
+
 ```javascript
 best = geneticAlgorithm.culture.best;
 
@@ -78,7 +86,8 @@ let i = 2;
 byIndex = geneticAlgorithm.culture.citizen(i);
 ```
 
-# Options:
+## Options
+
 ```javascript
 let geneticAlgorithm = new JeneticS({
     mutationRate: 0.01,         // Rate of mutation
@@ -89,6 +98,7 @@ let geneticAlgorithm = new JeneticS({
 });
 ```
 
-# TODO:
+## TODO
+
 * Add more examples
 * Add continuous evolution mode
