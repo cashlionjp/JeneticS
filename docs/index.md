@@ -14,7 +14,7 @@ Such that the population evolves towards some optimal solution.
 
 ## Installation
 
-Include Jenetics.js or Jenetics.min.js from [dist](dist/)
+Include Jenetics.js or Jenetics.min.js from [dist](https://github.com/cashlionjp/JeneticS/tree/master/docs/dist)
 
 ```html
 <script src="path/to/JeneticS.js"></script>
