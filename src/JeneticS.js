@@ -50,6 +50,7 @@ class JeneticS {
                     self.culture.crossover()[self.settings.crossoverMethod]();
                     // Mutate
                     self.culture.mutate(self.settings.mutationRate, self.settings.elitism, self.settings.eliteMutationMultiplier);
+                    return self.culture.best;
                 },
                 continuous: function () {
                     // TODO
