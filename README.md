@@ -25,6 +25,7 @@ Node specific usage coming soon.
 
 ## Usage
 
+
 Define a live (fitness) and mutate functions for your Agent.
 
 ```javascript
