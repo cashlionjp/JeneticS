@@ -1,8 +1,8 @@
 # JeneticS
 
-Genetic Algorithm Library in JS
+A Genetic Algorithm Framework in JS
 
-A genetic algorithm is more or less a universal function approximator.  After an initial (usually randomized) population is created, the algorithm loops through the following processes:
+A genetic algorithm is, more or less, a universal function approximator.  After an initial (usually randomized) population is created, the algorithm loops through the following processes:
 
 * __Fitness__ - Assessing how well an indiviual performs.
 * __Crossover__ ( reproduction ) - The fittest individuals have a higher probability to pass on DNA.
@@ -14,7 +14,7 @@ Such that the population evolves towards some optimal solution.
 
 ## Installation
 
-Include Jenetics.js or Jenetics.min.js from [dist](dist/)
+Include Jenetics.js or Jenetics.min.js from [dist](/dist/)
 
 ```html
 <script src="path/to/JeneticS.js"></script>
@@ -25,7 +25,7 @@ Node specific usage coming soon.
 
 ## Usage
 
-[Examples](docs/examples/)
+[Examples](examples/)
 
 Define a live (fitness) and mutate functions for your Agent.
 
