@@ -25,6 +25,7 @@ Node specific usage coming soon.
 
 ## Usage
 
+
 Define a live (fitness) and mutate functions for your Agent.
 
 ```javascript
@@ -101,4 +102,6 @@ let geneticAlgorithm = new JeneticS({
 ## TODO
 
 * Add more examples
+  * TSP
 * Add continuous evolution mode
+* Neuro Evolution: Tensorflow.js integration

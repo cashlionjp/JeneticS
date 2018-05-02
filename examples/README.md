@@ -1,4 +1,9 @@
 # JeneticS Examples
 
-Shakespeare - [toBeOrNotToBe](toBeOrNotToBe/)
+## Simple
 
+* Shakespeare - [toBeOrNotToBe](toBeOrNotToBe/)
+
+## Intermediate
+
+* TSP - COMING SOON!
